@@ -36,7 +36,7 @@ export const useCalculator = () => {
 
   const handleInput = (value: string) => {
     const lastChar = display[display.length - 1];
-    if (isOperator(value) && isOperator(lastChar)) {
+    if (isOperator(value) && lastChar && isOperator(lastChar)) {
       setDisplay(display.slice(0, -1) + value);
     } else {
       setDisplay((prev) => (prev === '0' ? value : prev + value));
