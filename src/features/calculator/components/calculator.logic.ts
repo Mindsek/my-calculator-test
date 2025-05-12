@@ -38,6 +38,8 @@ export const useCalculator = () => {
     const lastChar = display[display.length - 1];
     if (isOperator(value) && lastChar && isOperator(lastChar)) {
       setDisplay(display.slice(0, -1) + value);
+    } else if (value === '.' && lastChar === '.') {
+      return;
     } else {
       setDisplay((prev) => (prev === '0' ? value : prev + value));
     }

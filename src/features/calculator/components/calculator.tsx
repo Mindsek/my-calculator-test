@@ -1,7 +1,6 @@
 'use client';
 
 import { HistoryIcon } from 'lucide-react';
-import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,16 +9,6 @@ import { useCalculator } from './calculator.logic';
 
 export const Calculator = () => {
   const logic = useCalculator();
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        logic.handleCalculate();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [logic]);
 
   return (
     <Card className='w-full max-w-sm mx-auto bg-gray-100 rounded-3xl shadow-xl relative gap-0'>
@@ -30,6 +19,7 @@ export const Calculator = () => {
             variant='outline'
             size='icon'
             onClick={() => logic.setShowHistory(!logic.showHistory)}
+            data-testid='calculator-history-button'
           >
             <HistoryIcon className='h-5 w-5' />
           </Button>
@@ -58,7 +48,12 @@ const CalculatorHistory = ({
     <div className='bg-white rounded-lg p-4 overflow-y-auto h-full'>
       <div className='flex justify-between items-center mb-2'>
         <h3 className='font-medium'>History</h3>
-        <Button variant='ghost' size='sm' onClick={logic.clearHistory}>
+        <Button
+          variant='ghost'
+          size='sm'
+          onClick={logic.clearHistory}
+          data-testid='calculator-history-clear-button'
+        >
           Clear All
         </Button>
       </div>
@@ -104,7 +99,10 @@ const CalculatorDisplay = ({
           ))}
         </div>
 
-        <span className='text-right text-3xl font-light overflow-x-auto whitespace-nowrap w-full scrollbar-hide shrink-0 flex items-center justify-end'>
+        <span
+          className='text-right text-3xl font-light overflow-x-auto whitespace-nowrap w-full scrollbar-hide shrink-0 flex items-center justify-end'
+          data-testid='calculator-display'
+        >
           {logic.display}
         </span>
       </div>
@@ -119,56 +117,113 @@ const CalculatorButtons = ({
 }) => {
   return (
     <div className='grid grid-cols-4 gap-2'>
-      <Button variant='calculator' onClick={logic.clearDisplay}>
+      <Button
+        variant='calculator'
+        onClick={logic.clearDisplay}
+        data-testid='calculator-clear-button'
+      >
         C
       </Button>
       <Button
         variant='calculator'
         onClick={logic.handleBackspace}
         className='col-span-2'
+        data-testid='calculator-backspace-button'
       >
         ⌫
       </Button>
-      <Button variant='operation' onClick={() => logic.handleInput('/')}>
+      <Button
+        variant='operation'
+        onClick={() => logic.handleInput('/')}
+        data-testid='calculator-division-button'
+      >
         ÷
       </Button>
 
-      <Button variant='outline' onClick={() => logic.handleInput('7')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('7')}
+        data-testid='calculator-7-button'
+      >
         7
       </Button>
-      <Button variant='outline' onClick={() => logic.handleInput('8')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('8')}
+        data-testid='calculator-8-button'
+      >
         8
       </Button>
-      <Button variant='outline' onClick={() => logic.handleInput('9')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('9')}
+        data-testid='calculator-9-button'
+      >
         9
       </Button>
-      <Button variant='operation' onClick={() => logic.handleInput('x')}>
+      <Button
+        variant='operation'
+        onClick={() => logic.handleInput('x')}
+        data-testid='calculator-multiplication-button'
+      >
         x
       </Button>
 
-      <Button variant='outline' onClick={() => logic.handleInput('4')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('4')}
+        data-testid='calculator-4-button'
+      >
         4
       </Button>
-      <Button variant='outline' onClick={() => logic.handleInput('5')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('5')}
+        data-testid='calculator-5-button'
+      >
         5
       </Button>
-      <Button variant='outline' onClick={() => logic.handleInput('6')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('6')}
+        data-testid='calculator-6-button'
+      >
         6
       </Button>
-      <Button variant='operation' onClick={() => logic.handleInput('-')}>
+      <Button
+        variant='operation'
+        onClick={() => logic.handleInput('-')}
+        data-testid='calculator-subtraction-button'
+      >
         -
       </Button>
 
-      <Button variant='outline' onClick={() => logic.handleInput('1')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('1')}
+        data-testid='calculator-1-button'
+      >
         1
       </Button>
-      <Button variant='outline' onClick={() => logic.handleInput('2')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('2')}
+        data-testid='calculator-2-button'
+      >
         2
       </Button>
-      <Button variant='outline' onClick={() => logic.handleInput('3')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('3')}
+        data-testid='calculator-3-button'
+      >
         3
       </Button>
-      <Button variant='operation' onClick={() => logic.handleInput('+')}>
+      <Button
+        variant='operation'
+        onClick={() => logic.handleInput('+')}
+        data-testid='calculator-addition-button'
+      >
         +
       </Button>
 
@@ -176,13 +231,22 @@ const CalculatorButtons = ({
         variant='outline'
         onClick={() => logic.handleInput('0')}
         className='col-span-2'
+        data-testid='calculator-0-button'
       >
         0
       </Button>
-      <Button variant='outline' onClick={() => logic.handleInput('.')}>
+      <Button
+        variant='outline'
+        onClick={() => logic.handleInput('.')}
+        data-testid='calculator-dot-button'
+      >
         .
       </Button>
-      <Button variant='operation' onClick={logic.handleCalculate}>
+      <Button
+        variant='operation'
+        onClick={logic.handleCalculate}
+        data-testid='calculator-equal-button'
+      >
         =
       </Button>
     </div>
