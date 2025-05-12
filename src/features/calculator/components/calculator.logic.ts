@@ -8,6 +8,10 @@ type HistoryItem = {
   timestamp: number;
 };
 
+const isOperator = (value: string) => {
+  return value === '+' || value === '-' || value === 'x' || value === '/';
+};
+
 export const useCalculator = () => {
   const [display, setDisplay] = useState('0');
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -31,7 +35,12 @@ export const useCalculator = () => {
   }, [history]);
 
   const handleInput = (value: string) => {
-    setDisplay((prev) => (prev === '0' ? value : prev + value));
+    const lastChar = display[display.length - 1];
+    if (isOperator(value) && isOperator(lastChar)) {
+      setDisplay(display.slice(0, -1) + value);
+    } else {
+      setDisplay((prev) => (prev === '0' ? value : prev + value));
+    }
   };
 
   const clearDisplay = () => {
@@ -48,7 +57,15 @@ export const useCalculator = () => {
 
   const handleCalculate = () => {
     try {
-      if (display === 'Error') return;
+      if (
+        display.endsWith('+') ||
+        display.endsWith('-') ||
+        display.endsWith('x') ||
+        display.endsWith('/')
+      ) {
+        return;
+      }
+      if (display === 'Error' || display.includes('Error')) return;
       const expression = display;
       const calculationString = expression.replace(/x/g, '*');
       const result = eval(calculationString);
@@ -76,7 +93,7 @@ export const useCalculator = () => {
       setDisplay(item.result);
       setShowHistory(false);
     },
-    [setDisplay, setShowHistory]
+    [setDisplay, setShowHistory],
   );
 
   const clearHistory = () => {
